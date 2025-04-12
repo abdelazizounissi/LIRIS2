@@ -1,13 +1,14 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Grade Calculator</title>
+    <title>LIRIS2 Grade Calculator</title>
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            max-width: 800px;
+            max-width: 1200px;
             margin: 0 auto;
             padding: 20px;
             background-color: #f5f5f5;
@@ -16,6 +17,7 @@
         h1 {
             color: #2c3e50;
             text-align: center;
+            margin-bottom: 20px;
         }
         
         .container {
@@ -25,43 +27,10 @@
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
         }
         
-        .input-group {
-            margin-bottom: 15px;
-        }
-        
-        label {
-            display: block;
-            margin-bottom: 5px;
-            font-weight: bold;
-        }
-        
-        input, select {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            box-sizing: border-box;
-        }
-        
-        button {
-            background-color: #3498db;
-            color: white;
-            border: none;
-            padding: 10px 15px;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 16px;
-            transition: background-color 0.3s;
-        }
-        
-        button:hover {
-            background-color: #2980b9;
-        }
-        
         table {
             width: 100%;
             border-collapse: collapse;
-            margin-top: 20px;
+            margin-bottom: 20px;
         }
         
         table, th, td {
@@ -69,16 +38,31 @@
         }
         
         th, td {
-            padding: 12px;
+            padding: 8px;
             text-align: left;
+            font-size: 14px;
         }
         
         th {
             background-color: #f2f2f2;
+            font-weight: bold;
         }
         
         tr:nth-child(even) {
             background-color: #f9f9f9;
+        }
+        
+        input[type="number"] {
+            width: 60px;
+            padding: 5px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        
+        .module-header {
+            background-color: #e3f2fd;
+            font-weight: bold;
         }
         
         .result {
@@ -90,181 +74,830 @@
             text-align: center;
         }
         
-        .add-btn {
-            background-color: #2ecc71;
+        button {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s;
+            display: block;
+            margin: 20px auto;
+            width: 200px;
         }
         
-        .add-btn:hover {
-            background-color: #27ae60;
+        button:hover {
+            background-color: #2980b9;
         }
         
-        .remove-btn {
-            background-color: #e74c3c;
+        .module-result {
+            background-color: #e8f5e9;
+            font-weight: bold;
         }
         
-        .remove-btn:hover {
-            background-color: #c0392b;
+        .credit-earned {
+            color: #2e7d32;
+            font-weight: bold;
         }
         
-        .controls {
-            display: flex;
-            gap: 10px;
-            margin: 20px 0;
+        .credit-not-earned {
+            color: #c62828;
+            font-weight: bold;
         }
-    </style>
+        
+        .info-text {
+            color: #555;
+            font-size: 14px;
+            text-align: center;
+            margin-bottom: 15px;
+        }
+    
+<style>
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f5f5f5;
+}
+
+h1 {
+    color: #2c3e50;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.container {
+    background-color: white;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
+table, th, td {
+    border: 1px solid #ddd;
+}
+
+th, td {
+    padding: 8px;
+    text-align: left;
+    font-size: 14px;
+}
+
+th {
+    background-color: #f2f2f2;
+    font-weight: bold;
+}
+
+tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+input[type="number"] {
+    width: 60px;
+    padding: 5px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+.module-header {
+    background-color: #e3f2fd;
+    font-weight: bold;
+}
+
+.result {
+    margin-top: 20px;
+    padding: 15px;
+    background-color: #eaf7ff;
+    border-radius: 4px;
+    font-size: 18px;
+    text-align: center;
+}
+
+button {
+    background-color: #3498db;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease-in-out;
+}
+
+button:hover {
+    background-color: #2980b9;
+}
+
+.module-result {
+    background-color: #e8f5e9;
+    font-weight: bold;
+}
+
+.credit-earned {
+    color: #2e7d32;
+    font-weight: bold;
+}
+
+.credit-not-earned {
+    color: #c62828;
+    font-weight: bold;
+}
+
+.info-text {
+    color: #555;
+    font-size: 14px;
+    text-align: center;
+    margin-bottom: 15px;
+}
+
+/* Additional CSS for better mobile design */
+@media (max-width: 768px) {
+    body {
+        padding: 10px;
+        font-size: 16px; /* Increase base font size for better readability */
+        line-height: 1.5; /* Increase line height for better readability */
+        word-spacing: normal; /* Adjust word spacing for better readability */
+        letter-spacing: normal; /* Adjust letter spacing for better readability */
+        text-align-last:left; /* Align text to the left for better readability */
+        text-justify:auto; /* Use auto text justification for better readability */
+        text-indent:auto; /* Use auto text indentation for better readability */
+        text-transform:none; /* Use normal text transformation for better readability */
+        text-decoration:none; /* Remove text decoration for better readability */
+        text-shadow:none; /* Remove text shadow for better readability */
+        white-space:auto; /* Use auto white space handling for better readability */
+        word-break:auto; /* Use auto word break handling for better readability */
+        word-wrap:auto; /* Use auto word wrap handling for better readability */
+        hyphens:auto; /* Use auto hyphenation for better readability */
+        overflow-wrap:auto; /* Use auto overflow wrap handling for better readability */
+        tab-size:auto; /* Use auto tab size handling for better readability */
+        line-break:auto; /* Use auto line break handling for better readability */
+        break-word:auto; /* Use auto break word handling for better readability */
+        break-spaces:auto; /* Use auto break spaces handling for better readability */
+        overflow-x:hidden; /* Hide horizontal overflow to prevent scrolling issues */
+        overflow-y:auto; /* Allow vertical overflow to enable scrolling if needed */
+        scrollbar-width:auto; /* Use auto scrollbar width handling for better usability */
+        scrollbar-color:auto; /* Use auto scrollbar color handling for better usability */
+        scrollbar-gutter:auto; /* Use auto scrollbar gutter handling for better usability */
+        scrollbar-track-color:auto; /* Use auto scrollbar track color handling for better usability */
+        scrollbar-thumb-color:auto; /* Use auto scrollbar thumb color handling for better usability */
+        scrollbar-button-color:auto; /* Use auto scrollbar button color handling for better usability */
+        scrollbar-corner-color:auto; /* Use auto scrollbar corner color handling for better usability */
+        scrollbar-shadow-color:auto; /* Use auto scrollbar shadow color handling for better usability */
+        scrollbar-highlight-color:auto; /* Use auto scrollbar highlight color handling for better usability */
+        scrollbar-darkshadow-color:auto; /* Use auto scrollbar dark shadow color handling for better usability */
+        scrollbar-3dlight-color:auto; /* Use auto scrollbar 3D light color handling for better usability */
+        scrollbar-face-color:auto; /* Use auto scrollbar face color handling for better usability */
+        scrollbar-arrow-color:auto; /* Use auto scrollbar arrow color handling for better usability */
+        scrollbar-base-color:auto; /* Use auto scrollbar base color handling for better usability */
+        scrollbar-track-piece-color:auto; /* Use auto scrollbar track piece color handling for better usability */
+        scrollbar-thumb-piece-color:auto; /* Use auto scrollbar thumb piece color handling for better usability */
+        scrollbar-button-piece-color:auto; /* Use auto scrollbar button piece color handling for better usability );
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+
+        
+        
+        
+        
+
+        
+        
+        
+        
+
+        
+        
+        
+        
+
+        
+        
+        
+        
+
+        
+        
+        
+        
+
+        
+        
+        
+        
+
+        
+        
+        
+        
+
+        
+        
+        
+        
+
+        
+        
+        
+        
+
+        
+        
+        
+        
+
+        
+        
+        
+        
+
+        
+        
+        
+        
+
+        
+        
+        
+        
+
+        
+        
+        
+        
+
+        
+        
+        
+        
+
+        
+        
+        
+        
+
+        
+        
+        
+        
+
+        
+        
+        
+        
+
+        
+        
+        
+        
+
+        
+        
+        
+        
+
+        
+        
+        
+        
+
+        
+        
+        
+        
+
+
+</style>
 </head>
 <body>
-    <h1>Grade Calculator</h1>
+ <h2>Wish you luck <3</h2>
+    <h1>LIRIS2</h1>
     
     <div class="container">
-        <div class="input-group">
-            <label for="calculation-type">Calculation Type:</label>
-            <select id="calculation-type">
-                <option value="weighted">Weighted Average</option>
-                <option value="simple">Simple Average</option>
-            </select>
+        <div class="info-text">
+            
         </div>
         
         <table id="grades-table">
             <thead>
                 <tr>
-                    <th>Assignment/Exam</th>
-                    <th>Grade</th>
-                    <th id="weight-header">Weight (%)</th>
-                    <th>Actions</th>
+                    <th>Module</th>
+                    <th>Sujet</th>
+                    <th>Coef</th>
+                    <th>Évaluation continue (30%)</th>
+                    <th>Examen (70%)</th>
+                    <th>Moyenne</th>
+                    <th>Moyenne du module</th>
+                    <th>Crédits</th>
+                    <th>Statut</th>
                 </tr>
             </thead>
-            <tbody id="grades-body">
-                <tr>
-                    <td><input type="text" class="name-input" placeholder="Quiz 1"></td>
-                    <td><input type="number" class="grade-input" min="0" max="100" placeholder="95"></td>
-                    <td class="weight-cell"><input type="number" class="weight-input" min="0" max="100" placeholder="10"></td>
-                    <td><button class="remove-btn" onclick="removeRow(this)">Remove</button></td>
+            <tbody>
+                <!-- Module 1 -->
+                <tr class="module-header">
+                    <td rowspan="3">Module 1</td>
+                    <td>Probabilités Statistiques</td>
+                    <td>1</td>
+                    <td><input type="number" min="0" max="20" step="0.25" id="ps-cont"></td>
+                    <td><input type="number" min="0" max="20" step="0.25" id="ps-exam"></td>
+                    <td id="ps-avg">-</td>
+                    <td rowspan="3" id="module1-avg">-</td>
+                    <td>2</td>
+                    <td id="ps-status">-</td>
                 </tr>
                 <tr>
-                    <td><input type="text" class="name-input" placeholder="Midterm"></td>
-                    <td><input type="number" class="grade-input" min="0" max="100" placeholder="85"></td>
-                    <td class="weight-cell"><input type="number" class="weight-input" min="0" max="100" placeholder="25"></td>
-                    <td><button class="remove-btn" onclick="removeRow(this)">Remove</button></td>
+                    <td>Graphes et optimisation</td>
+                    <td>1</td>
+                    <td><input type="number" min="0" max="20" step="0.25" id="go-cont"></td>
+                    <td><input type="number" min="0" max="20" step="0.25" id="go-exam"></td>
+                    <td id="go-avg">-</td>
+                    <td>2</td>
+                    <td id="go-status">-</td>
+                </tr>
+                <tr class="module-result">
+                    <td colspan="4">Module Crédits</td>
+                    <td>-</td>
+                    <td>4</td>
+                    <td id="module1-status">-</td>
+                </tr>
+                
+                <!-- Module 2 -->
+                <tr class="module-header">
+                    <td rowspan="3">Module 2</td>
+                    <td>Réseaux locaux et industriels</td>
+                    <td>2</td>
+                    <td><input type="number" min="0" max="20" step="0.25" id="rli-cont"></td>
+                    <td><input type="number" min="0" max="20" step="0.25" id="rli-exam"></td>
+                    <td id="rli-avg">-</td>
+                    <td rowspan="3" id="module2-avg">-</td>
+                    <td>3</td>
+                    <td id="rli-status">-</td>
+                </tr>
+                <tr>
+                    <td>Technologie Multimédia</td>
+                    <td>1</td>
+                    <td><input type="number" min="0" max="20" step="0.25" id="tm-cont"></td>
+                    <td><input type="number" min="0" max="20" step="0.25" id="tm-exam"></td>
+                    <td id="tm-avg">-</td>
+                    <td>3</td>
+                    <td id="tm-status">-</td>
+                </tr>
+                <tr class="module-result">
+                    <td colspan="4">Module Crédits</td>
+                    <td>-</td>
+                    <td>6</td>
+                    <td id="module2-status">-</td>
+                </tr>
+                
+                <!-- Module 3 -->
+                <tr class="module-header">
+                    <td rowspan="3">Module 3</td>
+                    <td>Methodologie de conception de logiciel</td>
+                    <td>1</td>
+                    <td><input type="number" min="0" max="20" step="0.25" id="mcl-cont"></td>
+                    <td><input type="number" min="0" max="20" step="0.25" id="mcl-exam"></td>
+                    <td id="mcl-avg">-</td>
+                    <td rowspan="3" id="module3-avg">-</td>
+                    <td>2</td>
+                    <td id="mcl-status">-</td>
+                </tr>
+                <tr>
+                    <td>Fondement des bases de donnees</td>
+                    <td>1</td>
+                    <td><input type="number" min="0" max="20" step="0.25" id="fbd-cont"></td>
+                    <td><input type="number" min="0" max="20" step="0.25" id="fbd-exam"></td>
+                    <td id="fbd-avg">-</td>
+                    <td>2</td>
+                    <td id="fbd-status">-</td>
+                </tr>
+                <tr class="module-result">
+                    <td colspan="4">Module Crédits</td>
+                    <td>-</td>
+                    <td>4</td>
+                    <td id="module3-status">-</td>
+                </tr>
+                
+                <!-- Module 4 -->
+                <tr class="module-header">
+                    <td rowspan="3">Module 4</td>
+                    <td>Programmation orientee objet</td>
+                    <td>1.5</td>
+                    <td><input type="number" min="0" max="20" step="0.25" id="poo-cont"></td>
+                    <td><input type="number" min="0" max="20" step="0.25" id="poo-exam"></td>
+                    <td id="poo-avg">-</td>
+                    <td rowspan="3" id="module4-avg">-</td>
+                    <td>3</td>
+                    <td id="poo-status">-</td>
+                </tr>
+                <tr>
+                    <td>Programmation python</td>
+                    <td>1.5</td>
+                    <td><input type="number" min="0" max="20" step="0.25" id="pp-cont"></td>
+                    <td><input type="number" min="0" max="20" step="0.25" id="pp-exam"></td>
+                    <td id="pp-avg">-</td>
+                    <td>3</td>
+                    <td id="pp-status">-</td>
+                </tr>
+                <tr class="module-result">
+                    <td colspan="4">Module Crédits</td>
+                    <td>-</td>
+                    <td>6</td>
+                    <td id="module4-status">-</td>
+                </tr>
+                
+                <!-- Module 5 -->
+                <tr class="module-header">
+                    <td rowspan="3">Module 5</td>
+                    <td>Anglais</td>
+                    <td>1</td>
+                    <td>
+                        <div style="margin-bottom: 3px;">
+                            Oral: <input type="number" min="0" max="20" step="0.25" id="ang-oral" style="width: 50px;">
+                        </div>
+                        <div>
+                            Test: <input type="number" min="0" max="20" step="0.25" id="ang-test" style="width: 50px;">
+                        </div>
+                    </td>
+                    <td><input type="number" min="0" max="20" step="0.25" id="ang-exam"></td>
+                    <td id="ang-avg">-</td>
+                    <td rowspan="3" id="module5-avg">-</td>
+                    <td>2</td>
+                    <td id="ang-status">-</td>
+                </tr>
+                <tr>
+                    <td>Gestion d'entreprise</td>
+                    <td>1</td>
+                    <td><input type="number" min="0" max="20" step="0.25" id="ge-cont"></td>
+                    <td><input type="number" min="0" max="20" step="0.25" id="ge-exam"></td>
+                    <td id="ge-avg">-</td>
+                    <td>2</td>
+                    <td id="ge-status">-</td>
+                </tr>
+                <tr class="module-result">
+                    <td colspan="4">Module Crédits</td>
+                    <td>-</td>
+                    <td>4</td>
+                    <td id="module5-status">-</td>
+                </tr>
+                
+                <!-- Module 6 -->
+                <tr class="module-header">
+                    <td rowspan="3">Module 6</td>
+                    <td>Certification sur les technologies java</td>
+                    <td>1.5</td>
+                    <td><input type="number" min="0" max="20" step="0.25" id="ctj-cont"></td>
+                    <td><input type="number" min="0" max="20" step="0.25" id="ctj-exam"></td>
+                    <td id="ctj-avg">-</td>
+                    <td rowspan="3" id="module6-avg">-</td>
+                    <td>3</td>
+                    <td id="ctj-status">-</td>
+                </tr>
+                <tr>
+                    <td>Architectures avancees sur les processus</td>
+                    <td>1.5</td>
+                    <td><input type="number" min="0" max="20" step="0.25" id="aap-cont"></td>
+                    <td><input type="number" min="0" max="20" step="0.25" id="aap-exam"></td>
+                    <td id="aap-avg">-</td>
+                    <td>3</td>
+                    <td id="aap-status">-</td>
+                </tr>
+                <tr class="module-result">
+                    <td colspan="4">Module Crédits</td>
+                    <td>-</td>
+                    <td>6</td>
+                    <td id="module6-status">-</td>
                 </tr>
             </tbody>
         </table>
         
-        <div class="controls">
-            <button class="add-btn" onclick="addRow()">Add Assignment</button>
-            <button onclick="calculateGrade()">Calculate Grade</button>
-        </div>
+        <button onclick="calculateGrades()">Calculer</button>
         
-        <div id="result" class="result">
-            Your final grade will appear here.
+        <div id="final-result" class="result">
+            <div id="general-average" style="font-weight: bold; font-size: 20px;">Moyenne: -</div>
+            <div id="total-credits" style="margin-top: 10px; font-size: 18px;">Crédits totale: 0/30</div>
         </div>
     </div>
     
     <script>
-        // Update table visibility based on calculation type
-        document.getElementById('calculation-type').addEventListener('change', function() {
-            const weightCells = document.querySelectorAll('.weight-cell');
-            const weightHeader = document.getElementById('weight-header');
+        // Calculate all grades
+        function calculateGrades() {
+            // Sujet averages
+            calculateSujetAverage('ps', 1, 2);
+            calculateSujetAverage('go', 1, 2);
+            calculateSujetAverage('rli', 2, 3);
+            calculateSujetAverage('tm', 1, 3);
+            calculateSujetAverage('mcl', 1, 2);
+            calculateSujetAverage('fbd', 1, 2);
+            calculateSujetAverage('poo', 1.5, 3);
+            calculateSujetAverage('pp', 1.5, 3);
+            // Special calculation for Anglais
+            calculateAnglaisAverage();
+            calculateSujetAverage('ge', 1, 2);
+            calculateSujetAverage('ctj', 1.5, 3);
+            calculateSujetAverage('aap', 1.5, 3);
             
-            if (this.value === 'simple') {
-                weightCells.forEach(cell => cell.style.display = 'none');
-                weightHeader.style.display = 'none';
-            } else {
-                weightCells.forEach(cell => cell.style.display = 'table-cell');
-                weightHeader.style.display = 'table-cell';
-            }
-        });
-        
-        // Add a new row to the table
-        function addRow() {
-            const tbody = document.getElementById('grades-body');
-            const newRow = document.createElement('tr');
+            // Module averages
+            calculateModuleAverage(1, ['ps', 'go'], [1, 1]);
+            calculateModuleAverage(2, ['rli', 'tm'], [2, 1]);
+            calculateModuleAverage(3, ['mcl', 'fbd'], [1, 1]);
+            calculateModuleAverage(4, ['poo', 'pp'], [1.5, 1.5]);
+            calculateModuleAverage(5, ['ang', 'ge'], [1, 1]);
+            calculateModuleAverage(6, ['ctj', 'aap'], [1.5, 1.5]);
             
-            const calculationType = document.getElementById('calculation-type').value;
-            const weightDisplay = calculationType === 'simple' ? 'none' : 'table-cell';
-            
-            newRow.innerHTML = `
-                <td><input type="text" class="name-input" placeholder="Assignment"></td>
-                <td><input type="number" class="grade-input" min="0" max="100" placeholder="90"></td>
-                <td class="weight-cell" style="display: ${weightDisplay}"><input type="number" class="weight-input" min="0" max="100" placeholder="20"></td>
-                <td><button class="remove-btn" onclick="removeRow(this)">Remove</button></td>
-            `;
-            
-            tbody.appendChild(newRow);
+            // Calculate general average and total credits
+            calculateGeneralAverage();
         }
         
-        // Remove a row from the table
-        function removeRow(button) {
-            const tbody = document.getElementById('grades-body');
-            if (tbody.rows.length > 1) {
-                const row = button.parentNode.parentNode;
-                tbody.removeChild(row);
-            } else {
-                alert("You need at least one assignment!");
+        // Calculate subject average
+        function calculateSujetAverage(subjectId, coefficient, credits) {
+            const contElement = document.getElementById(`${subjectId}-cont`);
+            const examElement = document.getElementById(`${subjectId}-exam`);
+            
+            if (!contElement || !examElement) {
+                return;
             }
+            
+            const contValue = parseFloat(contElement.value);
+            const examValue = parseFloat(examElement.value);
+            
+            if (isNaN(contValue) || isNaN(examValue)) {
+                document.getElementById(`${subjectId}-avg`).textContent = "-";
+                document.getElementById(`${subjectId}-status`).textContent = "-";
+                return;
+            }
+            
+            // Calculate average: 30% continuous assessment + 70% exam
+            const avg = (contValue * 0.3) + (examValue * 0.7);
+            document.getElementById(`${subjectId}-avg`).textContent = avg.toFixed(2);
+            
+            // Determine if credits are earned
+            const status = avg >= 10 ? "Validé" : "Not Validé";
+            const statusElement = document.getElementById(`${subjectId}-status`);
+            statusElement.textContent = status;
+            statusElement.className = avg >= 10 ? "credit-earned" : "credit-not-earned";
+            
+            return avg;
         }
         
-        // Calculate the grade
-        function calculateGrade() {
-            const calculationType = document.getElementById('calculation-type').value;
-            const rows = document.getElementById('grades-body').rows;
-            const result = document.getElementById('result');
+        // Special calculation for Anglais
+        function calculateAnglaisAverage() {
+            const oralElement = document.getElementById('ang-oral');
+            const testElement = document.getElementById('ang-test');
+            const examElement = document.getElementById('ang-exam');
             
-            let totalGrade = 0;
-            let totalWeight = 0;
-            let count = 0;
+            if (!oralElement || !testElement || !examElement) {
+                return;
+            }
             
-            // Validate inputs
-            for (let i = 0; i < rows.length; i++) {
-                const grade = parseFloat(rows[i].querySelector('.grade-input').value);
-                
-                if (isNaN(grade)) {
-                    result.textContent = "Please enter valid grades for all assignments.";
-                    result.style.backgroundColor = "#ffcccc";
-                    return;
+            const oralValue = parseFloat(oralElement.value);
+            const testValue = parseFloat(testElement.value);
+            const examValue = parseFloat(examElement.value);
+            
+            if (isNaN(oralValue) || isNaN(testValue) || isNaN(examValue)) {
+                document.getElementById('ang-avg').textContent = "-";
+                document.getElementById('ang-status').textContent = "-";
+                return;
+            }
+            
+            // Calculate continuous part: (oral + test) / 2
+            const contValue = (oralValue + testValue) / 2;
+            
+            // Calculate average: 30% continuous + 70% exam
+            const avg = (contValue * 0.3) + (examValue * 0.7);
+            document.getElementById('ang-avg').textContent = avg.toFixed(2);
+            
+            // Determine if credits are earned
+            const status = avg >= 10 ? "Validé" : "Not Validé";
+            const statusElement = document.getElementById('ang-status');
+            statusElement.textContent = status;
+            statusElement.className = avg >= 10 ? "credit-earned" : "credit-not-earned";
+            
+            return avg;
+        }
+        
+        // Calculate module average
+        function calculateModuleAverage(moduleNumber, subjectIds, coefficients) {
+            let totalPoints = 0;
+            let totalCoefficients = 0;
+            let validValues = true;
+            
+            for (let i = 0; i < subjectIds.length; i++) {
+                const avgElement = document.getElementById(`${subjectIds[i]}-avg`);
+                if (!avgElement || avgElement.textContent === "-") {
+                    validValues = false;
+                    break;
                 }
                 
-                if (calculationType === 'weighted') {
-                    const weight = parseFloat(rows[i].querySelector('.weight-input').value);
-                    if (isNaN(weight)) {
-                        result.textContent = "Please enter valid weights for all assignments.";
-                        result.style.backgroundColor = "#ffcccc";
-                        return;
+                const avg = parseFloat(avgElement.textContent);
+                totalPoints += avg * coefficients[i];
+                totalCoefficients += coefficients[i];
+            }
+            
+            if (!validValues || totalCoefficients === 0) {
+                document.getElementById(`module${moduleNumber}-avg`).textContent = "-";
+                document.getElementById(`module${moduleNumber}-status`).textContent = "-";
+                return;
+            }
+            
+            const moduleAvg = totalPoints / totalCoefficients;
+            document.getElementById(`module${moduleNumber}-avg`).textContent = moduleAvg.toFixed(2);
+            
+            // Determine if module is validated
+            const status = moduleAvg >= 10 ? "Validé" : "Not Validé";
+            const statusElement = document.getElementById(`module${moduleNumber}-status`);
+            statusElement.textContent = status;
+            statusElement.className = moduleAvg >= 10 ? "credit-earned" : "credit-not-earned";
+            
+            // Update statuses of individual subjects if module is validated
+            if (moduleAvg >= 10) {
+                for (let i = 0; i < subjectIds.length; i++) {
+                    const statusElement = document.getElementById(`${subjectIds[i]}-status`);
+                    statusElement.textContent = "Validé (Module)";
+                    statusElement.className = "credit-earned";
+                }
+            }
+            
+            return moduleAvg;
+        }
+        
+        // Calculate general average and total credits
+        function calculateGeneralAverage() {
+            const moduleIds = [1, 2, 3, 4, 5, 6];
+            const totalCrédits = 30;
+            let earnedCrédits = 0;
+            let validModules = 0;
+            let totalPoints = 0;
+            let totalCoefficients = 0;
+            
+            // Define subject coefficients for global average
+            const subjectCoefficients = {
+                'ps': 1, 'go': 1, 'rli': 2, 'tm': 1, 'mcl': 1, 'fbd': 1,
+                'poo': 1.5, 'pp': 1.5, 'ang': 1, 'ge': 1, 'ctj': 1.5, 'aap': 1.5
+            };
+            
+            // Define subject credits
+            const subjectCrédits = {
+                'ps': 2, 'go': 2, 'rli': 3, 'tm': 3, 'mcl': 2, 'fbd': 2,
+                'poo': 3, 'pp': 3, 'ang': 2, 'ge': 2, 'ctj': 3, 'aap': 3
+            };
+            
+            // Get all subjects
+            const subjects = Object.keys(subjectCoefficients);
+            
+            // Calculate general average
+            for (const subjectId of subjects) {
+                const avgElement = document.getElementById(`${subjectId}-avg`);
+                if (avgElement && avgElement.textContent !== "-") {
+                    const avg = parseFloat(avgElement.textContent);
+                    const coef = subjectCoefficients[subjectId];
+                    totalPoints += avg * coef;
+                    totalCoefficients += coef;
+                    
+                    // Check if subject or its module is validated
+                    const statusElement = document.getElementById(`${subjectId}-status`);
+                    if (statusElement && 
+                        (statusElement.textContent === "Validé" || 
+                         statusElement.textContent === "Validé (Module)")) {
+                        earnedCrédits += subjectCrédits[subjectId];
                     }
                 }
             }
             
-            // Calculate grade
-            if (calculationType === 'weighted') {
-                for (let i = 0; i < rows.length; i++) {
-                    const grade = parseFloat(rows[i].querySelector('.grade-input').value);
-                    const weight = parseFloat(rows[i].querySelector('.weight-input').value);
-                    
-                    totalGrade += grade * weight;
-                    totalWeight += weight;
-                }
-                
-                if (totalWeight === 0) {
-                    result.textContent = "Total weight cannot be zero.";
-                    result.style.backgroundColor = "#ffcccc";
-                    return;
-                }
-                
-                const finalGrade = totalGrade / totalWeight;
-                result.textContent = `Your weighted average grade is: ${finalGrade.toFixed(2)}%`;
-            } else {
-                for (let i = 0; i < rows.length; i++) {
-                    const grade = parseFloat(rows[i].querySelector('.grade-input').value);
-                    totalGrade += grade;
-                    count++;
-                }
-                
-                const finalGrade = totalGrade / count;
-                result.textContent = `Your simple average grade is: ${finalGrade.toFixed(2)}%`;
-            }
+            // Display general average
+            const generalAvg = totalCoefficients > 0 ? totalPoints / totalCoefficients : 0;
+            document.getElementById('general-average').textContent = 
+                `Moyenne: ${generalAvg.toFixed(2)}/20`;
             
-            // Set color based on grade
-            result.style.backgroundColor = "#eaf7ff";
+            // Display total credits
+            document.getElementById('total-credits').textContent = 
+                `Crédits totale: ${earnedCrédits}/${totalCrédits}`;
         }
     </script>
 </body>
