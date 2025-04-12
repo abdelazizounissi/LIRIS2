@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grade Calculator</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+        }
+        
+        .container {
+            background-color: white;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .input-group {
+            margin-bottom: 15px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        
+        input, select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        
+        button {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+        
+        button:hover {
+            background-color: #2980b9;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+        
+        th, td {
+            padding: 12px;
+            text-align: left;
+        }
+        
+        th {
+            background-color: #f2f2f2;
+        }
+        
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        
+        .result {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #eaf7ff;
+            border-radius: 4px;
+            font-size: 18px;
+            text-align: center;
+        }
+        
+        .add-btn {
+            background-color: #2ecc71;
+        }
+        
+        .add-btn:hover {
+            background-color: #27ae60;
+        }
+        
+        .remove-btn {
+            background-color: #e74c3c;
+        }
+        
+        .remove-btn:hover {
+            background-color: #c0392b;
+        }
+        
+        .controls {
+            display: flex;
+            gap: 10px;
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>Grade Calculator</h1>
+    
+    <div class="container">
+        <div class="input-group">
+            <label for="calculation-type">Calculation Type:</label>
+            <select id="calculation-type">
+                <option value="weighted">Weighted Average</option>
+                <option value="simple">Simple Average</option>
+            </select>
+        </div>
+        
+        <table id="grades-table">
+            <thead>
+                <tr>
+                    <th>Assignment/Exam</th>
+                    <th>Grade</th>
+                    <th id="weight-header">Weight (%)</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody id="grades-body">
+                <tr>
+                    <td><input type="text" class="name-input" placeholder="Quiz 1"></td>
+                    <td><input type="number" class="grade-input" min="0" max="100" placeholder="95"></td>
+                    <td class="weight-cell"><input type="number" class="weight-input" min="0" max="100" placeholder="10"></td>
+                    <td><button class="remove-btn" onclick="removeRow(this)">Remove</button></td>
+                </tr>
+                <tr>
+                    <td><input type="text" class="name-input" placeholder="Midterm"></td>
+                    <td><input type="number" class="grade-input" min="0" max="100" placeholder="85"></td>
+                    <td class="weight-cell"><input type="number" class="weight-input" min="0" max="100" placeholder="25"></td>
+                    <td><button class="remove-btn" onclick="removeRow(this)">Remove</button></td>
+                </tr>
+            </tbody>
+        </table>
+        
+        <div class="controls">
+            <button class="add-btn" onclick="addRow()">Add Assignment</button>
+            <button onclick="calculateGrade()">Calculate Grade</button>
+        </div>
+        
+        <div id="result" class="result">
+            Your final grade will appear here.
+        </div>
+    </div>
+    
+    <script>
+        // Update table visibility based on calculation type
+        document.getElementById('calculation-type').addEventListener('change', function() {
+            const weightCells = document.querySelectorAll('.weight-cell');
+            const weightHeader = document.getElementById('weight-header');
+            
+            if (this.value === 'simple') {
+                weightCells.forEach(cell => cell.style.display = 'none');
+                weightHeader.style.display = 'none';
+            } else {
+                weightCells.forEach(cell => cell.style.display = 'table-cell');
+                weightHeader.style.display = 'table-cell';
+            }
+        });
+        
+        // Add a new row to the table
+        function addRow() {
+            const tbody = document.getElementById('grades-body');
+            const newRow = document.createElement('tr');
+            
+            const calculationType = document.getElementById('calculation-type').value;
+            const weightDisplay = calculationType === 'simple' ? 'none' : 'table-cell';
+            
+            newRow.innerHTML = `
+                <td><input type="text" class="name-input" placeholder="Assignment"></td>
+                <td><input type="number" class="grade-input" min="0" max="100" placeholder="90"></td>
+                <td class="weight-cell" style="display: ${weightDisplay}"><input type="number" class="weight-input" min="0" max="100" placeholder="20"></td>
+                <td><button class="remove-btn" onclick="removeRow(this)">Remove</button></td>
+            `;
+            
+            tbody.appendChild(newRow);
+        }
+        
+        // Remove a row from the table
+        function removeRow(button) {
+            const tbody = document.getElementById('grades-body');
+            if (tbody.rows.length > 1) {
+                const row = button.parentNode.parentNode;
+                tbody.removeChild(row);
+            } else {
+                alert("You need at least one assignment!");
+            }
+        }
+        
+        // Calculate the grade
+        function calculateGrade() {
+            const calculationType = document.getElementById('calculation-type').value;
+            const rows = document.getElementById('grades-body').rows;
+            const result = document.getElementById('result');
+            
+            let totalGrade = 0;
+            let totalWeight = 0;
+            let count = 0;
+            
+            // Validate inputs
+            for (let i = 0; i < rows.length; i++) {
+                const grade = parseFloat(rows[i].querySelector('.grade-input').value);
+                
+                if (isNaN(grade)) {
+                    result.textContent = "Please enter valid grades for all assignments.";
+                    result.style.backgroundColor = "#ffcccc";
+                    return;
+                }
+                
+                if (calculationType === 'weighted') {
+                    const weight = parseFloat(rows[i].querySelector('.weight-input').value);
+                    if (isNaN(weight)) {
+                        result.textContent = "Please enter valid weights for all assignments.";
+                        result.style.backgroundColor = "#ffcccc";
+                        return;
+                    }
+                }
+            }
+            
+            // Calculate grade
+            if (calculationType === 'weighted') {
+                for (let i = 0; i < rows.length; i++) {
+                    const grade = parseFloat(rows[i].querySelector('.grade-input').value);
+                    const weight = parseFloat(rows[i].querySelector('.weight-input').value);
+                    
+                    totalGrade += grade * weight;
+                    totalWeight += weight;
+                }
+                
+                if (totalWeight === 0) {
+                    result.textContent = "Total weight cannot be zero.";
+                    result.style.backgroundColor = "#ffcccc";
+                    return;
+                }
+                
+                const finalGrade = totalGrade / totalWeight;
+                result.textContent = `Your weighted average grade is: ${finalGrade.toFixed(2)}%`;
+            } else {
+                for (let i = 0; i < rows.length; i++) {
+                    const grade = parseFloat(rows[i].querySelector('.grade-input').value);
+                    totalGrade += grade;
+                    count++;
+                }
+                
+                const finalGrade = totalGrade / count;
+                result.textContent = `Your simple average grade is: ${finalGrade.toFixed(2)}%`;
+            }
+            
+            // Set color based on grade
+            result.style.backgroundColor = "#eaf7ff";
+        }
+    </script>
+</body>
+</html>
